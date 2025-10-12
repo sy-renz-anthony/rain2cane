@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 const MunicipalitySchema = new mongoose.Schema({
-    municipalityID:{
+    municipality_id:{
         type: Number,
         required: true
     },
-    provinceID:{
+    province_id:{
         type: Number,
         required: true
     },
-    municipalityName:{
+    municipality_name:{
         type: String,
         required: true
     }

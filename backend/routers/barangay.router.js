@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { getAllBarangays, getBarangaysByMunicipality } from '../controllers/barangay.controller.js';
+
 const router= express.Router();
 
 router.get("/get-all", getAllBarangays);

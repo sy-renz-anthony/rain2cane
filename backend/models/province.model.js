@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 const ProvinceSchema = new mongoose.Schema({
-    provinceID:{
+    province_id:{
         type: Number,
         required: true
     },
-    regionID:{
+    region_id:{
         type: Number,
         required: true
     },
-    provinceName:{
+    province_name:{
         type: String,
         required: true
     }

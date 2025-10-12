@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
 const RegionSchema = new mongoose.Schema({
-    regionID:{
+    region_id:{
         type: Number,
         required: true
     },
-    regionName:{
+    region_name:{
         type: String,
         required: true
     },
-    regionDescription:{
+    region_description:{
         type: String,
         default: ""
     }

@@ -9,6 +9,7 @@ import regionsRouter from './routers/region.router.js';
 import provinceRouter from './routers/province.router.js';
 import municipalityRouter from './routers/municipality.router.js';
 import barangayRouter from './routers/barangay.router.js';
+import userRouter from './routers/user.router.js';
 
 const secretPath =
   fs.existsSync('/etc/secrets/.env')
@@ -40,6 +41,7 @@ app.use("/api/region", regionsRouter);
 app.use("/api/province", provinceRouter);
 app.use("/api/municipality", municipalityRouter);
 app.use("/api/barangay", barangayRouter);
+app.use("/api/user", userRouter);
 
 app.listen(PORT, ()=>{
     dbConnection();
