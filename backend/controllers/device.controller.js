@@ -1,42 +1,30 @@
-import Device from "../models/device.model";
+import Device from "../models/device.model.js";
+import User from "../models/user.model.js";
 
 import mongoose from "mongoose";
+import { isDeviceIDExisting, isAddressValid } from "../functions/functions.js";
 
 export const register = async(req, res) =>{
     if(!req.body){
         return res.status(200).json({success: false, message: "Invalid values!"});
     }
 
-    const lName = req.body.lastName;
-    const fName = req.body.firstName;
-    const mName = req.body.middleName;
-    const contactNum = req.body.contactNumber;
-    const emailAdd = req.body.emailAddress;
-    const add = req.body.address;
-    var sendSmsNotification = req.body.sendSmsNotification;
+    const owner = req.body._id;
+    const deviceID = req.body.deviceID;
+    const address=req.body.address;
     const region = req.body.region;
     const province = req.body.province;
     const municipality = req.body.municipality;
     const barangay = req.body.barangay;
 
-    if(!lName){
-        return res.status(200).json({success: false, message: "Please provide the your Last Name!"});
-    }else if(!fName){
-        return res.status(200).json({success: false, message: "Please provide the your First Name!"});
-    }else if(!mName){
-        return res.status(200).json({success: false, message: "Please provide the your Middle Name!"});
+    
+
+    if(!deviceID){
+        return res.status(200).json({success: false, message: "Please provide the Device ID!"});
     }
 
-    if(!contactNum){
-        return res.status(200).json({success: false, message: "Please provide the your Contact Number!"});
-    }
-
-    if(!emailAdd){
-        return res.status(200).json({success: false, message: "Please provide the your Email Address!"});
-    }
-
-    if(!typeof(sendSmsNotification) == Boolean || !sendSmsNotification){
-        sendSmsNotification=false;
+    if(!owner || !mongoose.isValidObjectId(owner)){
+        return res.status(200).json({success: false, message: "Please Login properly!"});
     }
 
     if(!region || !mongoose.isValidObjectId(region)){
@@ -59,54 +47,42 @@ export const register = async(req, res) =>{
         return res.status(200).json({success: false, message: "Invalid Address!"});
     }
 
-    //return res.status(200).json({success: true, message: "Ok"});
-    const salt = Number (process.env.SALT || 10);
-
+    
     const session = await mongoose.startSession();
     
     try{
 
-        if(await isUserEmailExisting(emailAdd)){
-            return res.status(200).json({success: false, message: "Email Address is already in use!"});
+        if(await isDeviceIDExisting(deviceID)){
+            return res.status(200).json({success: false, message: "Device ID is already registered!"});
+        }
+
+        const ownerData = await User.findById(owner);
+        if(!ownerData || ownerData.length<1){
+            return res.status(200).json({success: false, message: "Please Login properly!"});
         }
 
         session.startTransaction();
         
-        const pwd = Math.random().toString(36).slice(2, 12);
-        const hashedPassword = await bcrypt.hash(pwd, salt);
-
-        let user = new User();
-        user.password = hashedPassword;
-        user.lastName=lName;
-        user.firstName=fName;
-        user.middleName=mName;
-        user.contactNumber=contactNum;
-        user.emailAddress=emailAdd;
-        user.address=add;
-        user.sendSmsNotification = sendSmsNotification;
-        user.region=region;
-        user.province=province;
-        user.municipality=municipality;
-        user.barangay=barangay;
+        let device = new Device();
+        device.deviceID=deviceID;
+        device.owner=owner;
+        device.address=address;
+        device.region=region;
+        device.province=province;
+        device.municipality=municipality;
+        device.barangay=barangay;
         
-        await user.save({session});
-        
-        await sendNewPasswordEmail(emailAdd, fName+" "+lName, pwd);
+        await device.save({session});
         
         await session.commitTransaction();
-        user=user.toObject();
-
-        delete user.password;
-        delete user.resetOTP;
-        delete user.resetOTPExpire;
-
-        res.status(200).json({success: true, data: [user]});
+        
+        res.status(200).json({success: true, data: [device]});
     }catch(error){
         
         if(session.inTransaction()){
             await session.abortTransaction();
         }
-        console.error("Error in User Account creation! - "+error.message);
+        console.error("Error in registering Device! - "+error.message);
         res.status(500).json({success: false, message:"Server Error"});
     }finally{
         await session.endSession();

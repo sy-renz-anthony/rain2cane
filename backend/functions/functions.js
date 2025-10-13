@@ -1,4 +1,5 @@
 import User from '../models/user.model.js';
+import Device from '../models/device.model.js';
 import mongoose from 'mongoose';
 import Barangay from '../models/barangay.model.js';
 import Municipality from '../models/municipality.model.js';
@@ -23,6 +24,23 @@ export const isUserEmailExisting = async (email, idToExcempt) =>{
     }
 }
 
+export const isDeviceIDExisting = async (deviceID, idToExcempt) =>{
+    try{
+        const device=await Device.find({"deviceID": deviceID});
+
+        if(!device || device.length<1){
+            return false;
+        }else if(idToExcempt == device[0]._id){
+            return false;
+        }else{
+            return true;
+        }
+    }catch(error){
+        console.error("Error in checking existence of Device ID! - "+error.message);
+        error.message = "Server Error!\n"+error.message;
+        throw(error);
+    }
+}
 
 export const isDateValid = async (stringInput) =>{
     if(typeof stringInput != 'string'){

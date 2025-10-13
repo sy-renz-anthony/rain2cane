@@ -5,6 +5,11 @@ const DeviceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    owner:{
+        type: mongoose.ObjectId,
+        ref: 'User',
+        required: true
+    },
     address:{
         type: String,
         required: false
@@ -51,12 +56,18 @@ const DeviceSchema = new mongoose.Schema({
     },
     status:{
         type: String,
-        required: true
+        required: true,
+        default: 'IDLE'
+    },
+    isOnline:{
+        type: Boolean,
+        required: true,
+        default: false
     },
     lastUpdate:{
-        type: Date,
+        type: Number,
         required: true,
-        default: Date.now()
+        default: 0
     }
 });
 
