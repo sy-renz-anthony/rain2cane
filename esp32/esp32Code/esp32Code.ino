@@ -205,10 +205,15 @@ void loop() {
       int fourthComma = message.indexOf(',', thirdComma+1);
 
       humidity = message.substring(0, firstComma).toFloat();
+      //Serial.println(humidity);
       temperature=message.substring(firstComma+1, secondComma).toFloat();
+      //Serial.println(temperature);
       tankLevel=message.substring(secondComma+1, thirdComma).toInt();
+      //Serial.println(tankLevel);
       isRaining=message.substring(thirdComma+1, fourthComma).toInt();
+      //Serial.println(isRaining);
       isIrrigating=message.substring(fourthComma+1).toInt();
+      //Serial.println(isIrrigating);
       Serial.println("From arduino: "+message);
       arduinoMessage=message;
       loopCounter=0;
@@ -219,17 +224,15 @@ void loop() {
 
   currentTime=millis();
   if((currentTime-previousOnlineUpdate) >= 6000){
-    if(connectedToWifi){
+    Serial.println("Check!");
+    
       sendOnlinePing();
-    }
     
     previousOnlineUpdate=currentTime;
   }
 
-  if(currentTime-previousDataSubmit >= 43200000){
-    if(connectedToWifi){
+  if(currentTime-previousDataSubmit >= 43200000 || previousDataSubmit<=0){
       sendDataSubmission();
-    }
     previousDataSubmit=currentTime;
   }
   
