@@ -5,69 +5,41 @@ const DeviceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    owner:{
-        type: mongoose.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    address:{
-        type: String,
-        required: false
-    },
-    region:{
-        type: mongoose.Types.ObjectId,
-        ref: 'Region',
-        required: true
-    },
-    province:{
-        type: mongoose.Types.ObjectId,
-        ref: 'Province',
-        required: true
-    },
-    municipality:{
-        type: mongoose.Types.ObjectId,
-        ref: 'Municipality',
-        required: true
-    },
-    barangay:{
-        type: mongoose.Types.ObjectId,
-        ref: 'Barangay',
-        required: true
-    },
-    tankWaterLevel:{
-        type: Number,
-        required: true,
-        default: 0
-    },
-    atmosphereHumidity:{
-        type: Number,
-        required: true,
-        default: 0
-    },
-    atmosphereMoisture:{
-        type: Number,
-        required: true,
-        default: 0
-    },
-    soilMoisture:{
-        type: Number,
-        required: true,
-        default: 0
-    },
-    status:{
-        type: String,
-        required: true,
-        default: 'IDLE'
-    },
     isOnline:{
         type: Boolean,
-        required: true,
         default: false
     },
     lastUpdate:{
         type: Number,
         required: true,
         default: 0
+    },
+    owner:{
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    temperature:{
+        type: Number,
+        required: true,
+        default: 0
+    },
+    humidity:{
+        type: Number,
+        required: true,
+        default: 0
+    },
+    tankLevel:{
+        type: Number,
+        default: 0
+    },
+    isRaining:{
+        type: Boolean,
+        default: false
+    },
+    isIrrigating:{
+        type: Boolean,
+        default: false
     }
 });
 
