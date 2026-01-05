@@ -31,14 +31,6 @@ export const submitData = async(req, res)=>{
         tankLevel=0;
     }
 
-    if(typeof isRaining !== "boolean"){
-        isRaining=false;
-    }
-
-    if(typeof isIrrigating !== "boolean"){
-        isIrrigating=false;
-    }
-
     const session = await mongoose.startSession();
     try{
         const onRecordDevice = await Device.find({"deviceID": deviceID});

@@ -172,14 +172,6 @@ export const deviceOnline = async(req, res) =>{
         tankLevel=0;
     }
 
-    if(typeof isRaining !== "boolean"){
-        isRaining=false;
-    }
-
-    if(typeof isIrrigating !== "boolean"){
-        isIrrigating=false;
-    }
-
     const session = await mongoose.startSession();
     try{
         const result = await Device.find({deviceID});

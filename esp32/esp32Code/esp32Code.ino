@@ -7,7 +7,7 @@
 const char* WIFI_SSID = "Channel-2.5Ghz";
 const char* WIFI_PASS = "@Lbiga$iat0n";
 
-const char* API_URL = "https://rain2cane.onrender.com/api";
+const char* API_URL = "https://xlgjn5k1-5000.asse.devtunnels.ms/api";
 
 const int JSON_REQUEST_SIZE = 512 + (64 * 15);
 
