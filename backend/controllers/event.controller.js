@@ -56,8 +56,17 @@ export const submitData = async(req, res)=>{
         newEvent.temperature=temperature;
         newEvent.humidity=humidity;
         newEvent.tankLevel=tankLevel;
-        newEvent.isRaining=isRaining;
-        newEvent.isIrrigating=isIrrigating;
+        if(isRaining>0){
+          newEvent.isRaining=true;
+        }else{
+          newEvent.isRaining=false;
+        }
+        if(isIrrigating>0){
+          newEvent.isIrrigating=true;
+        }else{
+          newEvent.isIrrigating=false;
+        }
+        
 
         await newEvent.save();
 

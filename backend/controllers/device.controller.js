@@ -194,8 +194,16 @@ export const deviceOnline = async(req, res) =>{
             device.temperature=temperature;
             device.humidity=humidity;
             device.tankLevel=tankLevel;
-            device.isRaining=isRaining;
-            device.isIrrigating=isIrrigating;
+            if(isRaining>0){
+                device.isRaining=true;
+            }else{
+                device.isRaining=false;
+            }
+            if(isIrrigating>0){
+                device.isIrrigating=true;       
+            }else{
+                device.isIrrigating=false;
+            }
 
             const updatedDevice = await Device.findByIdAndUpdate(device._id, device, {runValidators: true, new: true, session});
             await session.commitTransaction();
