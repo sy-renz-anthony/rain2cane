@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useIsFocused } from '@react-navigation/native';
 import {
   View,
@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   TextInput,
   Modal,
-  Image
+  Image,
+  BackHandler
 } from "react-native";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, router, Redirect } from "expo-router";
+import { Link, router, Redirect, useFocusEffect } from "expo-router";
 import loadingOverlay from "../components/LoadingOverlay";
 import axiosInstance from "@/axiosConfig";
 import Toast from "react-native-toast-message";
@@ -115,6 +116,16 @@ const DevicesTab =()=>{
         setNewDeviceID("");
         setShowNewDeviceModal(false);
     };
+
+    useFocusEffect(
+        useCallback(() => {
+          const subscription = BackHandler.addEventListener(
+            "hardwareBackPress",
+            () => true
+          );
+          return () => subscription.remove();
+        }, [])
+      );
 
     return(
         <SafeAreaView className="flex-1 bg-gray-100">

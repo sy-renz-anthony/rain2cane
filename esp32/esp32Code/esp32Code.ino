@@ -4,8 +4,8 @@
 #include <WiFiClientSecure.h>
 
 
-const char* WIFI_SSID = "Channel-2.5Ghz";
-const char* WIFI_PASS = "@Lbiga$iat0n";
+const char* WIFI_SSID = "Galaxy A54";
+const char* WIFI_PASS = "qwerty123";
 
 const char* API_URL = "https://xlgjn5k1-5000.asse.devtunnels.ms/api";
 
