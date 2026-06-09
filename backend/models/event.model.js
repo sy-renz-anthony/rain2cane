@@ -39,9 +39,33 @@ const EventSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    isIrrigating:{
+    isIrrigating1:{
         type: Boolean,
         default: false
+    },
+    isIrrigating2:{
+        type: Boolean,
+        default: false
+    },
+    isIrrigating3:{
+        type: Boolean,
+        default: false
+    },
+    isSoilMoist1:{
+        type: Boolean,
+        default: false
+    },
+    isSoilMoist2:{
+        type: Boolean,
+        default: false
+    },
+    isSoilMoist3:{
+        type: Boolean,
+        default: false
+    },
+    rainGauge:{
+        type: Number,
+        default: 0
     }
 });
 

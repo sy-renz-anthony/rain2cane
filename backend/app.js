@@ -6,22 +6,16 @@ import deviceRouter from './routers/device.router.js';
 import userRouter from './routers/user.router.js';
 import eventRouter from './routers/event.router.js';
 import checkOfflineDevices from './functions/checkOfflineDevices.js';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || origin === "null")
-      return callback(null, false);
-
-    return callback(null, origin);
-  },
-  credentials: true
-}));
+app.use((req, res, next) => {
+    console.log(`Incoming Request: ${req.method} ${req.url}`);
+    next();
+});
 
 const PORT = process.env.PORT || 5000;
 const secretPath =
@@ -31,6 +25,7 @@ const secretPath =
 
 dotenvConfig({ path: secretPath });
 
+
 app.use("/api/device", deviceRouter);
 app.use("/api/user", userRouter);
 app.use("/api/event", eventRouter);
@@ -38,7 +33,8 @@ app.get("/", (req, res)=>{
     res.json({message: "Server is working!"})
 });
 
-setInterval(checkOfflineDevices, 30000);
+
+setInterval(checkOfflineDevices, 3000);
 
 app.listen(PORT, '0.0.0.0', ()=>{
     dbConnection();

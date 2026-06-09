@@ -28,7 +28,7 @@ const renderTableHeading = () => {
       <Text className="flex-1 text-center text-white text-xs">Hum (%)</Text>
       <Text className="flex-1 text-center text-white text-xs">Tank</Text>
       <Text className="flex-1 text-center text-white text-xs">Rain</Text>
-      <Text className="flex-1 text-center text-white text-xs">Irrig.</Text>
+      <Text className="flex-1 text-center text-white text-xs">Gauge</Text>
     </View>
   );
 };
@@ -70,7 +70,7 @@ const renderTableData = ({ item }) => {
       </Text>
 
       <Text className="flex-1 text-xs">
-        {item.isIrrigating ? "On" : "Off"}
+        {item.rainGauge} mm/hr
       </Text>
     </View>
   );

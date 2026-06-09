@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Rain2Cane",
-    "slug": "app",
+    "slug": "Rain2Cane",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo-square.png",
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/logo.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.syncquirklabs.Rain2Cane"
     },
     "web": {
       "output": "static",
@@ -40,11 +41,20 @@
           }
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-community/datetimepicker",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3236bc21-73ab-4826-aecd-15d69e9ad17b"
+      }
+    },
+    "owner": "syncquirk-labs"
   }
 }

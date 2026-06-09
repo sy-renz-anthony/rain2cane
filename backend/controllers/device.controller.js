@@ -20,7 +20,7 @@ export const registerNewDevice = async(req, res) =>{
         return res.status(200).json({success: false, message: "Authentication Failed!"});
     }
 
-    const session = await mongoose.startSession();
+    //const session = await mongoose.startSession();
     try{
         const onRecordUser = await User.findById(id);
         if(!onRecordUser){
@@ -31,7 +31,7 @@ export const registerNewDevice = async(req, res) =>{
             return res.status(200).json({success: false, message: "Device ID is already in use!"});
         }
 
-        session.startTransaction();
+        //session.startTransaction();
 
         const newDevice = new Device();
         newDevice.deviceID = deviceID;
@@ -39,20 +39,21 @@ export const registerNewDevice = async(req, res) =>{
 
         await newDevice.save();
 
-        await session.commitTransaction();
+        //await session.commitTransaction();
         res.status(200).json({success: true, data: [newDevice]});
     }catch(error){
-        await session.abortTransaction();
+        //await session.abortTransaction();
         console.error("Error in registering Device! - "+error.message);
         res.status(500).json({success: false, message:"Server Error"});
     }finally{
-        await session.endSession();
+        //await session.endSession();
     }
     
     return res;
 }
 
 export const getMyDevices = async(req, res) =>{
+    console.log(JSON.stringify(req.body));
     if(!req.body){
         return res.status(400).json({success: false, message: "Invalid values!"});
     }
@@ -103,9 +104,9 @@ export const updateDevice = async(req, res)=>{
         return res.status(200).json({success: false, message: "Authentication Failed!"});
     }
 
-    const session = await mongoose.startSession();
+    //const session = await mongoose.startSession();
     try{
-        session.startTransaction();
+        //session.startTransaction();
         const onRecordUser = await User.findById(id);
         if(!onRecordUser){
             return res.status(200).json({success: false, message: "Authentication Failed!"});
@@ -127,23 +128,21 @@ export const updateDevice = async(req, res)=>{
             console.log("Error updating deviceID...");
             return res.status(200).json({success: false, message: "Device ID is already in use!"});
         }
-        await session.commitTransaction();
+        //await session.commitTransaction();
 
         
         res.status(200).json({success: true, data: [updatedDevice]});
 
     }catch(error){
-        await session.abortTransaction();
+        //await session.abortTransaction();
         console.error("Error in updating Device ID! - "+error.message);
         res.status(500).json({success: false, message:"Server Error"});
     }finally{
-        await session.endSession();
+        //await session.endSession();
     }
     
     return res;
 }
-
-
 export const deviceOnline = async(req, res) =>{
     if(!req.body){
         return res.status(400).json({success: false, message: "Invalid values!"});
@@ -154,8 +153,14 @@ export const deviceOnline = async(req, res) =>{
     var humidity=req.body.humidity;
     var tankLevel=req.body.tankLevel;
     var isRaining=req.body.isRaining;
-    var isIrrigating=req.body.isIrrigating;
-    
+    var isIrrigating1=req.body.isIrrigating1;
+    var isIrrigating2=req.body.isIrrigating2;
+    var isIrrigating3=req.body.isIrrigating3;
+    var isSoilMoist1=req.body.isSoilMoist1;
+    var isSoilMoist2=req.body.isSoilMoist2;
+    var isSoilMoist3=req.body.isSoilMoist3;
+    var rainGauge=req.body.rainGauge;
+
     if(!deviceID){
         return res.status(200).json({success: false, message: "Invalid Device ID!"});
     }
@@ -171,14 +176,17 @@ export const deviceOnline = async(req, res) =>{
     if(!tankLevel){
         tankLevel=0;
     }
+    if(!rainGauge){
+        rainGauge=0;
+    }
 
-    const session = await mongoose.startSession();
+    //const session = await mongoose.startSession();
     try{
         const result = await Device.find({deviceID});
         if(!result){
             res.status(500).json({success: false, message:"Device Not found!"});    
         }else{
-            session.startTransaction();
+            //session.startTransaction();
 
             const device=result[0];
             device.isOnline = true;
@@ -191,14 +199,41 @@ export const deviceOnline = async(req, res) =>{
             }else{
                 device.isRaining=false;
             }
-            if(isIrrigating>0){
-                device.isIrrigating=true;       
+            if(isIrrigating1>0){
+                device.isIrrigating1=true;       
             }else{
-                device.isIrrigating=false;
+                device.isIrrigating1=false;
             }
+            if(isIrrigating2>0){
+                device.isIrrigating2=true;       
+            }else{
+                device.isIrrigating2=false;
+            }
+            if(isIrrigating3>0){
+                device.isIrrigating3=true;       
+            }else{
+                device.isIrrigating3=false;
+            }
+            if(isSoilMoist1>0){
+                device.isSoilMoist1=true;       
+            }else{
+                device.isSoilMoist1=false;
+            }
+            if(isSoilMoist2>0){
+                device.isSoilMoist2=true;       
+            }else{
+                device.isSoilMoist2=false;
+            }
+            if(isSoilMoist3>0){
+                device.isSoilMoist3=true;       
+            }else{
+                device.isSoilMoist3=false;
+            }
+            device.rainGauge=rainGauge;
 
-            const updatedDevice = await Device.findByIdAndUpdate(device._id, device, {runValidators: true, new: true, session});
-            await session.commitTransaction();
+            //const updatedDevice = await Device.findByIdAndUpdate(device._id, device, {runValidators: true, new: true, session});
+            //await session.commitTransaction();
+            const updatedDevice = await Device.findByIdAndUpdate(device._id, device, {runValidators: true, new: true});
 
             res.status(200).json({success: true, data: [updatedDevice]});
         }
@@ -206,7 +241,7 @@ export const deviceOnline = async(req, res) =>{
         console.log(error.message);
         res.status(500).json({success: false, message:"Server Error"});
     }finally{
-        await session.endSession();
+        //await session.endSession();
     }
     
     return res;

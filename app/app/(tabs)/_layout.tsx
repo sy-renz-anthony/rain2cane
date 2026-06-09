@@ -32,22 +32,12 @@ export default function _Layout() {
         
     >
         <Tabs.Screen 
-            name="Home"
-            options={{
-                title: 'Home',
-                headerShown: false,
-                tabBarIcon: ({focused})=>(
-                    <MaterialIcons name={"home"} size={30} color={focused ? ("green"): ("gray")} />
-                )
-            }}
-        />
-        <Tabs.Screen 
             name="Devices"
             options={{
                 title: 'Devices',
                 headerShown: false,
                 tabBarIcon: ({focused})=>(
-                    <MaterialIcons name={"device-hub"} size={30} color={focused ? ("green"): ("gray")} />
+                    <MaterialIcons name={"home"} size={30} color={focused ? ("green"): ("gray")} />
                 )
             }}
         />

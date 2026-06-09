@@ -13,7 +13,13 @@ export const submitData = async(req, res)=>{
     var humidity=req.body.humidity;
     var tankLevel=req.body.tankLevel;
     var isRaining=req.body.isRaining;
-    var isIrrigating=req.body.isIrrigating;
+    var isIrrigating1=req.body.isIrrigating1;
+    var isIrrigating2=req.body.isIrrigating2;
+    var isIrrigating3=req.body.isIrrigating3;
+    var isSoilMoist1=req.body.isSoilMoist1;
+    var isSoilMoist2=req.body.isSoilMoist2;
+    var isSoilMoist3=req.body.isSoilMoist3;
+    var rainGauge=req.body.rainGauge;
 
     if(!deviceID){
         return res.status(200).json({success: false, message: "Invalid Device ID!"});
@@ -30,8 +36,11 @@ export const submitData = async(req, res)=>{
     if(!tankLevel){
         tankLevel=0;
     }
+    if(!rainGauge){
+        rainGauge=0;
+    }
 
-    const session = await mongoose.startSession();
+    //const session = await mongoose.startSession();
     try{
         const onRecordDevice = await Device.find({"deviceID": deviceID});
         console.log("data: "+JSON.stringify(onRecordDevice));
@@ -39,7 +48,7 @@ export const submitData = async(req, res)=>{
             return res.status(200).json({success: false, message: "Device not found!"});
         }
         
-        session.startTransaction();
+        //session.startTransaction();
 
         const newEvent = new Event();
         newEvent.device = onRecordDevice[0]._id;
@@ -53,23 +62,50 @@ export const submitData = async(req, res)=>{
         }else{
           newEvent.isRaining=false;
         }
-        if(isIrrigating>0){
-          newEvent.isIrrigating=true;
+        if(isIrrigating1>0){
+          newEvent.isIrrigating1=true;
         }else{
-          newEvent.isIrrigating=false;
+          newEvent.isIrrigating1=false;
         }
+        
+            if(isIrrigating2>0){
+                newEvent.isIrrigating2=true;       
+            }else{
+                newEvent.isIrrigating2=false;
+            }
+            if(isIrrigating3>0){
+                newEvent.isIrrigating3=true;       
+            }else{
+                newEvent.isIrrigating3=false;
+            }
+            if(isSoilMoist1>0){
+                newEvent.isSoilMoist1=true;       
+            }else{
+                newEvent.isSoilMoist1=false;
+            }
+            if(isSoilMoist2>0){
+                newEvent.isSoilMoist2=true;       
+            }else{
+                newEvent.isSoilMoist2=false;
+            }
+            if(isSoilMoist3>0){
+                newEvent.isSoilMoist3=true;       
+            }else{
+                newEvent.isSoilMoist3=false;
+            }
+            newEvent.rainGauge=rainGauge;
         
 
         await newEvent.save();
 
-        await session.commitTransaction();
+        //await session.commitTransaction();
         res.status(200).json({success: true, message: "data submission successfully saved!"});
     }catch(error){
-        await session.abortTransaction();
+        //await session.abortTransaction();
         console.error("Error in saving Data from device! - "+error.message);
         res.status(500).json({success: false, message:"Server Error"});
     }finally{
-        await session.endSession();
+        //await session.endSession();
     }
     
     return res;

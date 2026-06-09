@@ -9,7 +9,7 @@ const checkOfflineDevices = async() => {
         }
 
         const timeNow = Date.now();
-        const idleTimeThreshold = 30 * 1000;
+        const idleTimeThreshold = 5000;
 
         for(var i=0; i<devices.length; i++){
             const device = devices[i];

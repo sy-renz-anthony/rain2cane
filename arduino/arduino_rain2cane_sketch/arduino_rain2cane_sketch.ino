@@ -130,6 +130,7 @@ void openRoof(){
 
 void setup() {
   Serial.begin(9600);
+  delay(15000);
   pinMode(PIN_RAIN, INPUT);
   pinMode(PIN_PROX_SENSOR_TRIG, OUTPUT);
   pinMode(PIN_PROX_SENSOR_ECHO, INPUT);
@@ -193,7 +194,7 @@ void loop() {
   //Serial.print("Soil Moisture: ");
   //Serial.println(soilMoisture);
 
-  if (rainDigitalVal == LOW && rainLevelValue > 300) {
+  if (rainDigitalVal == LOW && rainLevelValue > 200) {
     //Serial.println("Raining!");
     lcd.setCursor(0, 0);
     lcd.print("Raining!        ");

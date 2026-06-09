@@ -1,0 +1,25 @@
+1. npm install -g eas-cli
+
+2. eas login
+
+3. eas init
+	-asked to select account: select your current account.
+	-asked to create existing project: always select to create new project.
+	
+4.eas build:cofigure
+	-select android
+	
+	*after this there is a possibility for error. just to make sure it wont happen, run the command: npx expo install --fix
+	
+5.eas build -p android
+	-asked to create new keystore: yes
+	
+	*an eas.json file will be generated in your project folder. open it and add these: 
+	"android": {
+        "buildType": "apk"
+     }
+	 under the preview section.
+	 
+6. eas build -p android --profile preview
+
+7. download the apk from eas dashboard

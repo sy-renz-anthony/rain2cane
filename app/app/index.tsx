@@ -27,7 +27,7 @@ export default function LoginScreen() {
   if (authLoading) return null;
 
   if (token) {
-    return <Redirect href="/(tabs)/Home" />;
+    return <Redirect href="/(tabs)/Devices" />;
   }
 
   const handleLogin = async() => {
@@ -69,8 +69,8 @@ export default function LoginScreen() {
                 text2: ""
                 });
                 await login(response.data.token);
-                router.push("/(tabs)/Home");
-                router.replace('/(tabs)/Home');
+                router.push("/(tabs)/Devices");
+                router.replace('/(tabs)/Devices');
             }
         }catch(error){
             console.log("Error while logging in! - "+error.message);
